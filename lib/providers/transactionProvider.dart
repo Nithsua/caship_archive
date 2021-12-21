@@ -4,10 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class TransactionsNotifier extends StateNotifier<List<Transaction>> {
   TransactionsNotifier() : super([]);
 
-  addTransaction(
-      String title, double amount, TransactionType type, DateTime date) {
-    state.add(Transaction.newTransaction(
-        title: title, amount: amount, type: type, date: date));
+  addTransaction(String title, double amount, TransactionType type,
+      DateTime date, String paymentMethodId) {
+    state = [
+      ...state,
+      Transaction.newTransaction(
+          title: title,
+          amount: amount,
+          type: type,
+          date: date,
+          paymentMethodId: paymentMethodId)
+    ];
   }
 
   Transaction transaction(int index) => state[index];

@@ -30,12 +30,14 @@ class Transaction {
       {required String id,
       required String title,
       required double amount,
+      required String paymentMethodId,
       required TransactionType type,
       required String color,
       required DateTime date,
       required String icon}) {
     _id = id;
     _title = title;
+    _paymentMethodId = paymentMethodId;
     _amount = amount;
     _type = type;
     _date = date;
@@ -49,12 +51,14 @@ class Transaction {
       required TransactionType type,
       String? color,
       required DateTime date,
+      required String paymentMethodId,
       String? icon}) {
     return Transaction(
         id: const Uuid().v4().replaceAll("-", ""),
         title: title,
         amount: amount,
         type: type,
+        paymentMethodId: paymentMethodId,
         color: color ??
             colors.keys.toList()[Random.secure().nextInt(colors.length)],
         date: date,

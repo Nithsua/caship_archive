@@ -278,7 +278,8 @@ class PaymentCard extends ConsumerWidget {
                           children: [
                             RichText(
                                 text: TextSpan(
-                                    text: "\$5000",
+                                    // text: "\$5000",
+                                    text: "",
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5
@@ -286,18 +287,21 @@ class PaymentCard extends ConsumerWidget {
                                     children: [
                                   TextSpan(
                                     text: balance != null
-                                        ? " / \$$balance\n"
+                                        // ? " / \$$balance\n"
+                                        ? "\$$balance\n"
                                         : "\n",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .headline5
                                         ?.apply(color: Colors.white),
                                   ),
                                   TextSpan(
                                     text:
-                                        "Amount Spent (${DateFormat("MMM").format(DateTime.now())})" +
+                                        // "Amount Spent (${DateFormat("MMM").format(DateTime.now())})" +
+                                        "" +
                                             (balance != null
-                                                ? " / Balance"
+                                                // ? " / Balance"
+                                                ? "Balance"
                                                 : ""),
                                     style: Theme.of(context)
                                         .textTheme

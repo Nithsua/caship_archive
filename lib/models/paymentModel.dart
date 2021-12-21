@@ -72,6 +72,7 @@ abstract class PaymentMethod {
   PaymentMethod(this._id, this._accountId, this._paymentProcessor);
 
   String get id => _id;
+  String get accountId => _accountId;
   PaymentProcessor get paymentProcessor => _paymentProcessor;
 }
 
@@ -93,7 +94,6 @@ class UpiPayment extends PaymentMethod {
           accountId: accountId);
 
   String get upiId => _upiId;
-  String get accountId => _accountId;
 }
 
 class CardPayment extends PaymentMethod {
@@ -112,7 +112,7 @@ class CardPayment extends PaymentMethod {
                 return PaymentProcessor.visa;
               } else if (paymentProcessor == "PaymentProcessor.mastercard") {
                 return PaymentProcessor.mastercard;
-              } else if (paymentProcessor == "PaymentProcessor.mastro") {
+              } else if (paymentProcessor == "PaymentProcessor.maestro") {
                 return PaymentProcessor.maestro;
               } else if (paymentProcessor == "PaymentProcessor.dinersclub") {
                 return PaymentProcessor.dinersClub;
@@ -141,5 +141,4 @@ class CardPayment extends PaymentMethod {
           paymentProcessor: paymentProcessor);
 
   String get cardNo => _cardNo;
-  String get accountId => _accountId;
 }

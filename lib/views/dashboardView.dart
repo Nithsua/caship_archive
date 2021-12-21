@@ -1,6 +1,8 @@
 import 'package:caship/models/paymentModel.dart';
+import 'package:caship/models/transactionModel.dart';
 import 'package:caship/providers/paymentProvider.dart';
 import 'package:caship/providers/themeProvider.dart';
+import 'package:caship/providers/transactionProvider.dart';
 import 'package:caship/views/homeView.dart';
 import 'package:caship/views/profileView.dart';
 
@@ -109,21 +111,12 @@ class _NewTransactionButtonState extends ConsumerState<NewTransactionButton> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> temp = [];
+    List<Map<PaymentMethod, BankAccount>> temp = [];
     final list = ref.watch(bankAccountsProvider.notifier).list();
     for (int i = 0; i < list.length; i++) {
       final bankAccount = list[i];
       for (int j = 0; j < bankAccount.length; j++) {
-        final paymentMethod = bankAccount.paymentMethod(j);
-        temp.add(Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: PaymentCard(
-              no: (paymentMethod.paymentProcessor == PaymentProcessor.upi
-                  ? (paymentMethod as UpiPayment).upiId
-                  : (paymentMethod as CardPayment).cardNo),
-              balance: bankAccount.balance,
-              paymentProcessor: paymentMethod.paymentProcessor),
-        ));
+        temp.add({bankAccount.paymentMethod(j): bankAccount});
       }
     }
 
@@ -186,10 +179,25 @@ class _NewTransactionButtonState extends ConsumerState<NewTransactionButton> {
                       ? SizedBox(
                           height: 200,
                           child: PageView(
-                            physics: const BouncingScrollPhysics(),
-                            controller: _pageController,
-                            children: temp,
-                          ),
+                              physics: const BouncingScrollPhysics(),
+                              controller: _pageController,
+                              children: temp
+                                  .map((e) => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        child: PaymentCard(
+                                            no: (e.keys.first
+                                                        .paymentProcessor ==
+                                                    PaymentProcessor.upi
+                                                ? (e.keys.first as UpiPayment)
+                                                    .upiId
+                                                : (e.keys.first as CardPayment)
+                                                    .cardNo),
+                                            balance: e.values.first.balance,
+                                            paymentProcessor:
+                                                e.keys.first.paymentProcessor),
+                                      ))
+                                  .toList()),
                         )
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(30.0),
@@ -221,17 +229,39 @@ class _NewTransactionButtonState extends ConsumerState<NewTransactionButton> {
                                 ),
                               ))),
                   const SizedBox(height: 10),
-                  const Text("Date/Time"),
+                  const Text("Date"),
                   const SizedBox(height: 5),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: TextField(
-                      enabled: false,
-                      controller: _dateController,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey,
-                        border: InputBorder.none,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final currentDate = DateTime.now();
+                        final temp = await showDatePicker(
+                            builder: (context, child) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: child,
+                                ),
+                            context: context,
+                            initialDate: currentDate,
+                            firstDate: currentDate,
+                            lastDate: currentDate.add(const Duration(days: 7)));
+
+                        if (temp != null) {
+                          setState(() {
+                            dateTime = temp;
+                          });
+                        }
+                      },
+                      child: TextField(
+                        enabled: false,
+                        showCursor: false,
+                        keyboardType: TextInputType.none,
+                        decoration: InputDecoration(
+                          hintText: DateFormat("d MMM y").format(dateTime),
+                          filled: true,
+                          fillColor: Colors.grey,
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                   ),
@@ -240,7 +270,29 @@ class _NewTransactionButtonState extends ConsumerState<NewTransactionButton> {
                     child: MaterialButton(
                       shape: Theme.of(context).cardTheme.shape,
                       color: Theme.of(context).colorScheme.onBackground,
-                      onPressed: temp.isNotEmpty ? () {} : null,
+                      onPressed: temp.isNotEmpty
+                          ? () {
+                              final PaymentMethod selectedPaymentMethod =
+                                  temp[_pageController.page!.toInt()]
+                                      .keys
+                                      .first;
+                              final amount =
+                                  double.parse(_amountController.text) * -1;
+                              ref
+                                  .read(bankAccountsProvider.notifier)
+                                  .updateBalanceById(
+                                      selectedPaymentMethod.accountId, amount);
+                              ref
+                                  .read(transactionsNotifierProvider.notifier)
+                                  .addTransaction(
+                                      _titleController.text,
+                                      amount,
+                                      TransactionType.send,
+                                      dateTime,
+                                      selectedPaymentMethod.id);
+                              Navigator.pop(context);
+                            }
+                          : null,
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -24,6 +24,14 @@ class BankAccountNotifier extends StateNotifier<List<BankAccount>> {
     }
   }
 
+  updateBalanceById(String id, double by) {
+    for (int i = 0; i < state.length; i++) {
+      if (state[i].id == id) {
+        state[i].updateBalance(by);
+      }
+    }
+  }
+
   updateBalance(int index, double by) {
     state[index].updateBalance(by);
   }
