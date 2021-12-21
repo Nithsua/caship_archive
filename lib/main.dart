@@ -1,27 +1,15 @@
-import 'package:expense_boi/providers/themeProvider.dart';
-import 'package:expense_boi/providers/userProvider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:caship/providers/themeProvider.dart';
+import 'package:caship/views/dashboardView.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) => runApp(const ProviderScope(child: MyApp())));
-}
-
-String getStateOfTheDay() {
-  final hour = DateTime.now().hour;
-  if (hour >= 16) {
-    return "Good Evening";
-  } else if (hour >= 12) {
-    return "Good Afternoon";
-  } else {
-    return "Good Morning";
-  }
 }
 
 class MyApp extends ConsumerWidget {
@@ -31,291 +19,138 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       theme: ThemeData(
-          backgroundColor: Colors.white,
-          scaffoldBackgroundColor: Colors.white,
+          brightness: Brightness.light,
+          fontFamily: "Lato",
+          backgroundColor: Colors.grey.shade50,
+          scaffoldBackgroundColor: Colors.grey.shade50,
           appBarTheme: AppBarTheme(
-            systemOverlayStyle: const SystemUiOverlayStyle(
+            systemOverlayStyle: SystemUiOverlayStyle(
               statusBarBrightness: Brightness.light,
-              statusBarColor: Colors.white,
+              statusBarColor: Colors.grey.shade50,
               statusBarIconBrightness: Brightness.dark,
-              systemNavigationBarColor: Colors.white,
+              systemNavigationBarColor: Colors.grey.shade50,
               systemNavigationBarIconBrightness: Brightness.dark,
-              systemNavigationBarDividerColor: Colors.white,
+              systemNavigationBarDividerColor: Colors.grey.shade50,
             ),
-            color: Colors.white,
+            foregroundColor: Colors.black,
+            color: Colors.grey.shade50,
             elevation: 0.0,
             toolbarTextStyle: Theme.of(context).textTheme.subtitle1,
-            titleTextStyle: Theme.of(context).textTheme.subtitle1,
+            titleTextStyle: Theme.of(context).textTheme.headline6,
           ),
-          textTheme: Theme.of(context)
-              .textTheme
-              .apply(bodyColor: Colors.black, displayColor: Colors.black),
+          textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.black,
+              displayColor: Colors.black,
+              fontFamily: "Lato"),
           cardTheme: CardTheme(
-              elevation: 0.0,
-              color: Colors.grey.shade100,
+            elevation: 0.0,
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)),
+          ),
+          bottomSheetTheme: const BottomSheetThemeData(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0)))),
-      darkTheme: ThemeData.dark(),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0))),
+              backgroundColor: Colors.white),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: Colors.grey.shade50,
+            elevation: 0.0,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+          ),
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+                primary: Colors.black,
+                secondary: Colors.black,
+                background: Colors.grey.shade50,
+                onBackground: Colors.black,
+                brightness: Brightness.light,
+                onSurface: Colors.black,
+                surface: Colors.white,
+              ),
+          listTileTheme: ListTileThemeData(
+              shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          )),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+          ),
+          primarySwatch: Colors.blue,
+          dialogBackgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: Colors.black)),
+      darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          fontFamily: "Lato",
+          backgroundColor: Colors.black,
+          scaffoldBackgroundColor: Colors.black,
+          appBarTheme: AppBarTheme(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarBrightness: Brightness.dark,
+              statusBarColor: Colors.black,
+              statusBarIconBrightness: Brightness.light,
+              systemNavigationBarColor: Colors.black,
+              systemNavigationBarIconBrightness: Brightness.light,
+              systemNavigationBarDividerColor: Colors.black,
+            ),
+            color: Colors.black,
+            foregroundColor: Colors.white,
+            elevation: 0.0,
+            toolbarTextStyle: Theme.of(context).textTheme.subtitle1,
+            titleTextStyle: Theme.of(context)
+                .textTheme
+                .headline6
+                ?.apply(color: Colors.white),
+          ),
+          textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+              fontFamily: "Lato"),
+          cardTheme: CardTheme(
+            elevation: 0.0,
+            color: Colors.grey[900],
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)),
+          ),
+          bottomSheetTheme: BottomSheetThemeData(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0))),
+              backgroundColor: Colors.grey[900]),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            backgroundColor: Colors.black,
+            elevation: 0.0,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.grey,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+          ),
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+                primary: Colors.white,
+                secondary: Colors.white,
+                background: Colors.black,
+                onBackground: Colors.white,
+                brightness: Brightness.dark,
+                onSurface: Colors.white,
+                surface: Colors.black,
+              ),
+          listTileTheme: ListTileThemeData(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+          ),
+          primarySwatch: Colors.grey,
+          dialogBackgroundColor: Colors.black,
+          iconTheme: const IconThemeData(color: Colors.white)),
       themeMode: ref.watch(themeProvider),
       debugShowCheckedModeBanner: false,
       home: const Dashboard(),
     );
-  }
-}
-
-class Dashboard extends ConsumerWidget {
-  const Dashboard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (_, isScrolled) => [
-          SliverAppBar(
-              centerTitle: false,
-              floating: false,
-              title: RichText(
-                  text: TextSpan(
-                      style: Theme.of(context).textTheme.bodyText1,
-                      text: "${getStateOfTheDay()}\n",
-                      children: [
-                    TextSpan(
-                      text:
-                          ref.watch(userProvider.select((value) => value.name)),
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ])))
-        ],
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const PaymentCard(),
-                const SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Transactions",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.greenAccent[100],
-                                child: Icon(
-                                  Icons.trending_up,
-                                  color: Colors.green[700],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "+24%",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          ?.apply(
-                                            color: Colors.greenAccent,
-                                          ),
-                                    ),
-                                    const Text("Income"),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.orangeAccent[100],
-                                child: Icon(
-                                  Icons.trending_down,
-                                  color: Colors.orange[700],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "-42%",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          ?.apply(
-                                            color: Colors.orangeAccent,
-                                          ),
-                                    ),
-                                    const Text("Expense"),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    TransactionHistoryTile(
-                        title: "Digital Ocean",
-                        date: DateTime.now(),
-                        amount: 130.0),
-                    TransactionHistoryTile(
-                        title: "Digital Ocean",
-                        date: DateTime.now(),
-                        amount: 130.0),
-                    TransactionHistoryTile(
-                        title: "Digital Ocean",
-                        date: DateTime.now(),
-                        amount: 130.0),
-                    TransactionHistoryTile(
-                        title: "Digital Ocean",
-                        date: DateTime.now(),
-                        amount: 130.0),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TransactionHistoryTile extends StatelessWidget {
-  final String title;
-  final DateTime date;
-  final double amount;
-  const TransactionHistoryTile(
-      {Key? key, required this.title, required this.date, required this.amount})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-        leading: CircleAvatar(
-          child: Icon(
-            CupertinoIcons.bag,
-            color: Colors.red.shade700,
-          ),
-          backgroundColor: Colors.redAccent.shade100,
-        ),
-        tileColor: Theme.of(context).cardTheme.color,
-        shape: Theme.of(context).cardTheme.shape,
-        title: Text(
-          title,
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              ?.apply(fontSizeDelta: -2, fontWeightDelta: 2),
-        ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 4.0),
-          child: Text(
-            DateFormat("d MMM yyyy").format(date),
-            style: Theme.of(context).textTheme.caption,
-          ),
-        ),
-        trailing: Text(
-          "\$$amount",
-          style:
-              Theme.of(context).textTheme.subtitle1?.apply(fontWeightDelta: 4),
-        ),
-      ),
-    );
-  }
-}
-
-class PaymentCard extends StatelessWidget {
-  const PaymentCard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-        elevation: 2.0,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        color: Colors.black,
-        child: SizedBox(
-            height: 200,
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RichText(
-                            text: TextSpan(
-                                text: "\$5000\n",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5
-                                    ?.apply(color: Colors.white),
-                                children: [
-                              TextSpan(
-                                text: "Amount Spent this month",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.apply(color: Colors.grey),
-                              )
-                            ])),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "xxxx xxxx xxxx " + "4567",
-                              style:
-                                  Theme.of(context).textTheme.subtitle1?.apply(
-                                        color: Colors.white,
-                                      ),
-                            ),
-                            Image.asset(
-                              "assets/images/mastercard.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )));
   }
 }

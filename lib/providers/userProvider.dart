@@ -1,4 +1,4 @@
-import 'package:expense_boi/models/userModel.dart';
+import 'package:caship/models/userModel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserNotifier extends StateNotifier<User> {
@@ -13,7 +13,7 @@ final userProvider =
     StateNotifierProvider<UserNotifier, User>((ref) => UserNotifier(User(
           id: "0",
           name: "Nivas Muthu M G",
-          username: "Nithsua",
+          username: "nithsua",
           createdAt: DateTime.now(),
           lastLogin: DateTime.now(),
         )));

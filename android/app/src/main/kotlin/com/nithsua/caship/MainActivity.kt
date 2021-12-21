@@ -1,4 +1,4 @@
-package com.nithsua.expense_boi
+package com.nithsua.caship
 
 import io.flutter.embedding.android.FlutterActivity
 
