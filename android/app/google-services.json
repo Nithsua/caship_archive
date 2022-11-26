@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "858606856931",
+    "project_id": "caship-staging",
+    "storage_bucket": "caship-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858606856931:android:11a8909a525dab9dc633d6",
+        "android_client_info": {
+          "package_name": "dev.nithsua.caship"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858606856931-3aftrnp6dqvbaiklsjt433o2i365dl79.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC82KeiYeUOT9M0MQu9Sz2YoWz9WmrwdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "858606856931-3aftrnp6dqvbaiklsjt433o2i365dl79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
